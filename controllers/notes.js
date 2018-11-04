@@ -29,6 +29,5 @@ module.exports = {
         Note.remove ({
             _id: data._id
         }, cb);
-        
     }
-}
+};
