@@ -13,6 +13,8 @@ var router = express.Router();
 
 // Routes
 require("./config/routes")(router);
+// require("./config/api")(router);
+// require("./config/view")(router);
 
 
 // Designate our public folder as a static directory
@@ -30,14 +32,11 @@ app.use(bodyParser.json());
 app.use(router);
 
 // Mongoose 
-var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(db, function(err) {
-    if(err) {
-        console.log(error);
-    } else {
-        console.log("mongoose connection is successful");
-    }
-})
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true
+});
 
 
 // Listen on the port

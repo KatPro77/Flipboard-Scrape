@@ -1,6 +1,15 @@
+// var router = require("express").Router();
+// var apiRoutes = require("../config/api");
+// var viewRoutes = require("./view");
+
+// router.use(apiRoutes);
+// router.use("/", viewRoutes);
+
+// module.exports = router;
+
 var scrape = require("../scripts/scrape");
-var headlinesController = require("../controllers/headlines");
-var notesController = require("../controllers/notes");
+var Headline = require("../controllers/headlines");
+var Note = require("../controllers/notes");
 
 
 module.exports = function(router) {
@@ -13,8 +22,8 @@ module.exports = function(router) {
     });
 
     router.get("/fetch", function(req, res) {
-        headlinesController.fetch(function(err, docs) {
-            if (!docs || docs.inseertedCount === 0) {
+        Headline.fetch(function(err, docs) {
+            if (!docs || docs.insertedCount === 0) {
                 res.json({
                     message: "No news today! Come back later!"
                 });
@@ -32,7 +41,7 @@ module.exports = function(router) {
         if (req.query.saved) {
             query = req.query;
         }
-        headlinesController.get(query, function(data) {
+        Headline.get(query, function(data) {
             res.json(data);
         });
     });
@@ -40,13 +49,13 @@ module.exports = function(router) {
     router.delete("/headlines/:id", function(req, res) {
         var query = {};
         query._id = req.params.id;
-        headlinesController.delete(query, function(err, data) {
+        Headline.delete(query, function(err, data) {
             res.json(data);
         });
     });
 
     router.patch("/headlines", function(req, res) {
-        headlinesController.update(req.body, function(err, data) {
+        Headline.update(req.body, function(err, data) {
             res.json(data);
         });
     });
@@ -56,7 +65,7 @@ module.exports = function(router) {
         if (req.params.headline_id) {
             query._id = req.params.headline_id;
         }
-        notesController.get(query, function(err, data) {
+        Note.get(query, function(err, data) {
             res.json(data);
         });
     });
@@ -64,13 +73,13 @@ module.exports = function(router) {
     router.delete("/notes/:id", function(req, res) {
         var query = {};
         query._id = req.params.id;
-        notesController.delete(query, function(err, data) {
+        Note.delete(query, function(err, data) {
             res.json(data);
         });
     });
 
     router.post("/notes", function(req, res) {
-        notesController.save(req.body, function(data) {
+        Note.save(req.body, function(data) {
             res.json(data);
         });
     });

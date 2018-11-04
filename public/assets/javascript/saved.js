@@ -11,7 +11,7 @@ $(document).ready(function() {
   
     function initPage() {
       articleContainer.empty();
-      $.get("/api/headlines?saved=true").then(function(data) {
+      $.get("/headlines?saved=true").then(function(data) {
         if (data && data.length) {
           renderArticles(data);
         }
@@ -103,7 +103,7 @@ $(document).ready(function() {
       var articleToDelete = $(this).parents(".panel").data();
       $.ajax({
         method: "DELETE",
-        url: "/api/headlines/" + articleToDelete._id
+        url: "/headlines/" + articleToDelete._id
       }).then(function(data) {
         if (data.ok) {
           initPage();
@@ -113,7 +113,7 @@ $(document).ready(function() {
   
     function handleArticleNotes() {
       var currentArticle = $(this).parents(".panel").data();
-      $.get("/api/notes/" + currentArticle._id).then(function(data) {
+      $.get("/notes/" + currentArticle._id).then(function(data) {
         var modalText = [
           "<div class='container-fluid text-center'>",
           "<h4>Notes For Article: ",
@@ -147,7 +147,7 @@ $(document).ready(function() {
           _id: $(this).data("article")._id,
           noteText: newNote
         };
-        $.post("/api/notes", noteData).then(function() {
+        $.post("/notes", noteData).then(function() {
           bootbox.hideAll();
         });
       }
@@ -156,7 +156,7 @@ $(document).ready(function() {
     function handleNoteDelete() {
       var noteToDelete = $(this).data("_id");
       $.ajax({
-        url: "/api/notes/" + noteToDelete,
+        url: "/notes/" + noteToDelete,
         method: "DELETE"
       }).then(function() {
         bootbox.hideAll();

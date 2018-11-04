@@ -7,7 +7,7 @@ $(document).ready(function() {
   
     function initPage() {
       articleContainer.empty();
-      $.get("/api/headlines?saved=false").then(function(data) {
+      $.get("/headlines?saved=false").then(function(data) {
         if (data && data.length) {
           renderArticles(data);
         }
@@ -75,7 +75,7 @@ $(document).ready(function() {
         articleToSave.saved = true;
         $.ajax({
           method: "PUT",
-          url: "/api/headlines/" + articleToSave._id,
+          url: "/headlines/" + articleToSave._id,
           data: articleToSave
         }).then(function(data) {
           if (data.saved) {
@@ -85,7 +85,7 @@ $(document).ready(function() {
       }
     
       function handleArticleScrape() {
-        $.get("/api/fetch").then(function(data) {
+        $.get("/fetch").then(function(data) {
           initPage();
           bootbox.alert("<h3 class='text-center m-top-80'>" + data.message + "<h3>");
         });
