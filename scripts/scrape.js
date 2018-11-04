@@ -10,16 +10,16 @@ var scrape = function() {
 
     var articles = [];
 
-    $(".post post--card").each(function(i, element) {
+    $(".post--card").each(function(i, element) {
 
       var head = $(this)
-        .children(".data-test-id").text().trim();
+        .children(".post_title article-text--title--large").text().trim();
 
       var url = $(this)
-        .children(".data-test-id").children("a").attr("href");
+        .children(".post_title article-text--title--large").children("a").attr("href");
 
       var sum = $(this)
-        .children(".article-text--body internal-link").text().trim();
+        .children(".post_excerpt").text().trim();
 
       if (head && sum && url) {
 
